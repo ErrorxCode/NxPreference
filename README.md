@@ -19,12 +19,3 @@ dependencies {
 	        implementation 'com.github.ErrorxCode:EasyPreference:1.0.0'
 	}
 ```
-
-
-
-## Demo
-
-<img src="/gif.mp4?raw=true" width="40" height="40" />
-
-  
-  
