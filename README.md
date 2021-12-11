@@ -21,7 +21,7 @@ In your project level build.gradle
 In your module level build.gradle (app)
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyPreference:1.0.0'
+	        implementation 'com.github.ErrorxCode:EasyPreference:1.5'
 	}
 ```
 
@@ -77,6 +77,15 @@ public class DemoFragment extends Fragment {
 If you want to exclude some views from saving their state, you can declare `android:tag="exclude"` in that view.
 
 You can also use `EasyPreference.saveViewState(View view);` and `EasyPreference.restoreViewState(View view);` for saving particular view.
+
+## Savable views
+Only these views state are saved.
+
+- Switch
+- RadioButton
+- CheckBox
+- CompoundButton
+- Edittext
 
 ## Points to remember
 
