@@ -3,20 +3,21 @@ package com.easypreference;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioGroup;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
 /**
- * This API helps you to save your activity or fragment state persistently. They will be same on app restart as they were before,
+ * This library helps you to save your activity or fragment state persistently. They will be same on app restart as they were before,
  * like if you have checked some checkboxes or switches or any other <code>CompoundButton</code> then, this class will save their state & you can restore them on <code>onCreate()</code>
- * of your activity or fragment. The components of which the state are saved are referred as <code>Preference</code>. This API uses <code>SharedPreference</code> to store data.
+ * of your activity or fragment. The components of which the state are saved are referred as <code>Preference</code>. This library uses <code>SharedPreference</code> to store data.
  *
  * @author Rahil khan
  * @version 1.0
@@ -43,6 +44,8 @@ public class EasyPreference {
                 editor.putInt(getId(view), ((RadioGroup) view).getCheckedRadioButtonId());
             else if (view instanceof CompoundButton)
                 editor.putBoolean(getId(view),((CompoundButton) view).isChecked());
+            else if (view instanceof EditText)
+                editor.putString(getId(view),((EditText) view).getText().toString());
         }
         editor.apply();
     }
@@ -61,6 +64,8 @@ public class EasyPreference {
                 ((RadioGroup) view).check(preferences.getInt(getId(view),((RadioGroup) view).getCheckedRadioButtonId()));
             else if (view instanceof CompoundButton)
                 ((CompoundButton) view).setChecked(preferences.getBoolean(getId(view),((CompoundButton) view).isChecked()));
+            else if (view instanceof EditText)
+                ((EditText) view).setText(preferences.getString(getId(view),null));
         }
     }
 
@@ -80,6 +85,8 @@ public class EasyPreference {
                 editor.putInt(getId(view), ((RadioGroup) view).getCheckedRadioButtonId());
             else if (view instanceof CompoundButton)
                 editor.putBoolean(getId(view),((CompoundButton) view).isChecked());
+            else if (view instanceof EditText)
+                editor.putString(getId(view),((EditText) view).getText().toString());
         }
         editor.apply();
     }
@@ -98,6 +105,8 @@ public class EasyPreference {
                 ((RadioGroup) view).check(preferences.getInt(getId(view),((RadioGroup) view).getCheckedRadioButtonId()));
             else if (view instanceof CompoundButton)
                 ((CompoundButton) view).setChecked(preferences.getBoolean(getId(view),((CompoundButton) view).isChecked()));
+            else if (view instanceof EditText)
+                ((EditText) view).setText(preferences.getString(getId(view),null));
         }
     }
 
@@ -117,7 +126,7 @@ public class EasyPreference {
             View childView = layout.getChildAt(i);
             if (childView instanceof ViewGroup && !(childView instanceof RadioGroup))
                 getAllChild((ViewGroup) childView);
-            else if (childView instanceof CompoundButton || childView instanceof RadioGroup){
+            else if (childView instanceof CompoundButton || childView instanceof RadioGroup || childView instanceof EditText){
                 if (!"exclude".equals(childView.getTag())){
                     if (childView.getId() == -1)
                         throw new NoPreferenceIdException(childView);
@@ -131,9 +140,9 @@ public class EasyPreference {
 
 
     /**
-     * Saves the state of particular view. This view must be either RadioGroup or CompoundButton.
+     * Saves the state of particular view. This view must be either RadioGroup or CompoundButton or Edittext.
      * @param view The view that is to be saved.
-     * @throws IllegalArgumentException if view is not a RadioGroup or CompoundButton.
+     * @throws ViewNotSavableException if view is not savable.
      */
     public static void saveViewState(View view){
         SharedPreferences.Editor editor = view.getContext().getSharedPreferences(PREFERENCE,Context.MODE_PRIVATE).edit();
@@ -141,8 +150,10 @@ public class EasyPreference {
             editor.putInt(getId(view), ((RadioGroup) view).getCheckedRadioButtonId());
         else if (view instanceof CompoundButton)
             editor.putBoolean(getId(view),((CompoundButton) view).isChecked());
+        else if (view instanceof EditText)
+            editor.putString(getId(view),((EditText) view).getText().toString());
         else
-            throw new IllegalArgumentException("You can only save states of RadioGroup or CompoundButton");
+            throw new ViewNotSavableException(getId(view));
 
         editor.apply();
     }
@@ -158,6 +169,8 @@ public class EasyPreference {
             ((RadioGroup) view).check(preferences.getInt(getId(view),((RadioGroup) view).getCheckedRadioButtonId()));
         else if (view instanceof CompoundButton)
             ((CompoundButton) view).setChecked(preferences.getBoolean(getId(view),((CompoundButton) view).isChecked()));
+        else if (view instanceof EditText)
+            ((EditText) view).setText(preferences.getString(getId(view),null));
     }
 
 
