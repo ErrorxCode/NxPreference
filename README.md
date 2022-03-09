@@ -1,7 +1,7 @@
+# Next Preference library
+A new way to create preference screen with normal architecture components like activity and views. You can also use this library to save activity/fragment state persistently. Saving state means that the modifiable views like Spinner,checkbox,radiobutton, etc.. after restart, will be in the same state as they were before. 
 
-# EasyPreference
 
-𝐓𝐡𝐢𝐬 𝐥𝐢𝐛𝐫𝐚𝐫𝐲 𝐡𝐞𝐥𝐩𝐬 𝐲𝐨𝐮 𝐭𝐨 𝐬𝐚𝐯𝐞 𝐲𝐨𝐮𝐫 𝐚𝐜𝐭𝐢𝐯𝐢𝐭𝐲 𝐨𝐫 𝐟𝐫𝐚𝐠𝐦𝐞𝐧𝐭 𝐬𝐭𝐚𝐭𝐞 𝐩𝐞𝐫𝐬𝐢𝐬𝐭𝐞𝐧𝐭𝐥𝐲. 𝐓𝐡𝐞𝐲 𝐰𝐢𝐥𝐥 𝐛𝐞 𝐬𝐚𝐦𝐞 𝐨𝐧 𝐚𝐩𝐩 𝐫𝐞𝐬𝐭𝐚𝐫𝐭 𝐚𝐬 𝐭𝐡𝐞𝐲 𝐰𝐞𝐫𝐞 𝐛𝐞𝐟𝐨𝐫𝐞, 𝐥𝐢𝐤𝐞 𝐢𝐟 𝐲𝐨𝐮 𝐡𝐚𝐯𝐞 𝐜𝐡𝐞𝐜𝐤𝐞𝐝 𝐬𝐨𝐦𝐞 𝐜𝐡𝐞𝐜𝐤𝐛𝐨𝐱𝐞𝐬 𝐨𝐫 𝐬𝐰𝐢𝐭𝐜𝐡𝐞𝐬 𝐨𝐫 𝐚𝐧𝐲 𝐨𝐭𝐡𝐞𝐫 𝐂𝐨𝐦𝐩𝐨𝐮𝐧𝐝𝐁𝐮𝐭𝐭𝐨𝐧 𝐭𝐡𝐞𝐧, 𝐭𝐡𝐢𝐬 𝐜𝐥𝐚𝐬𝐬 𝐰𝐢𝐥𝐥 𝐬𝐚𝐯𝐞 𝐭𝐡𝐞𝐢𝐫 𝐬𝐭𝐚𝐭𝐞 & 𝐲𝐨𝐮 𝐜𝐚𝐧 𝐫𝐞𝐬𝐭𝐨𝐫𝐞 𝐭𝐡𝐞𝐦 𝐨𝐧 𝐨𝐧𝐂𝐫𝐞𝐚𝐭𝐞() 𝐨𝐟 𝐲𝐨𝐮𝐫 𝐚𝐜𝐭𝐢𝐯𝐢𝐭𝐲 𝐨𝐫 𝐟𝐫𝐚𝐠𝐦𝐞𝐧𝐭. 𝐓𝐡𝐞 𝐜𝐨𝐦𝐩𝐨𝐧𝐞𝐧𝐭𝐬 𝐨𝐟 𝐰𝐡𝐢𝐜𝐡 𝐭𝐡𝐞 𝐬𝐭𝐚𝐭𝐞 𝐚𝐫𝐞 𝐬𝐚𝐯𝐞𝐝 𝐚𝐫𝐞 𝐫𝐞𝐟𝐞𝐫𝐫𝐞𝐝 𝐚𝐬 𝐏𝐫𝐞𝐟𝐞𝐫𝐞𝐧𝐜𝐞.
 ## Demo
 
 ![Demo](/demo.gif)
@@ -21,23 +21,26 @@ In your project level build.gradle
 In your module level build.gradle (app)
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyPreference:1.5'
+	        implementation 'com.github.ErrorxCode:EasyPreference:2.0'
 	}
 ```
 
 
+## Usage/Examples
 
-  
-## Usage / Examples
-To save & restore activity's state automatically ( The code which is used in above gif ) :-
+### Saving states
+**Note** : If you want to exclude some views from saving their state, you can declare `android:tag="exclude"` in that view.
+
+#### Manual method
+To save & restore activity's state manually :-
 ```java
-public class DemoActivity extends AppCompatActivity {
+public class DemoActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        EasyPreference.restoreActivityState(this);
+        NxPreference.restoreActivityState(this);
 
         // Rest of the code
     }
@@ -45,7 +48,7 @@ public class DemoActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        EasyPreference.saveActivityState(this);
+        NxPreference.saveActivityState(this);
     }
 }
 ```
@@ -59,7 +62,7 @@ public class DemoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view =  inflater.inflate(R.layout.fragment_blank, container, false);
-        EasyPreference.saveFragmentState(view);
+        NxPreference.saveFragmentState(view);
         
         // Rest of the code
         
@@ -69,14 +72,81 @@ public class DemoFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
-        EasyPreference.restoreFragmentState(view);
+        NxPreference.restoreFragmentState(view);
     }
 }
 ```
+#### Automatic method
+To save & restore activity's state automatically :-
+```java
+public class DemoActivity extends AppCompactActivity {
 
-If you want to exclude some views from saving their state, you can declare `android:tag="exclude"` in that view.
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        NxPreference.autoSaveState(this);
 
-You can also use `EasyPreference.saveViewState(View view);` and `EasyPreference.restoreViewState(View view);` for saving particular view.
+        // Rest of the code
+    }
+}
+```
+This is not possible in case of **Fragment**
+
+#### Saving Listview state
+**Note:** If you want to save listview, first declare `android:tag="savable"` in it. Then Make sure that adapter is set to the listview befour you call
+`NxPreference.saveActivityState(this)` or `NxPreference.autoSaveState(this)`
+
+Either set adapter to the list before calling ` NxPreference.saveActivityState(this)` state:
+```java
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ListView listView = findViewById(R.id.list);
+        listView.setAdapter(adapter);
+        NxPreference.restoreActivityState(this);
+
+        // Rest of the code
+    }
+```
+or call it in the last:
+```java
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        ListView listView = findViewById(R.id.list);
+        List<String> list = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,list);
+        listView.setAdapter(adapter);
+
+        // Rest of the code...
+
+        NxPreference.restoreActivityState(this);
+    }
+```
+
+### Preferences
+There is currently 1 preference. It is simple preference that can be further extended to make more custom preferences.
+If you are making your own preference with that preference class, please share it with others by contributing to this library.
+
+Here is the example of simple preference:
+```xml
+<com.xcoder.nxpref.Header
+    app:heading="General settings"
+    android:layout_height="wrap_content"
+    app:showDivider="false"
+    android:layout_width="match_parent"/>
+
+<com.xcoder.nxpref.Preference 
+    android:id="@+id/backupPref"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    app:summery="Change your default backup settings"
+    app:title="Backup settings"/>
+```
 
 ## Savable views
 Only these views state are saved.
@@ -86,12 +156,13 @@ Only these views state are saved.
 - CheckBox
 - CompoundButton
 - Edittext
+- Spinner
+- Listview
 
 ## Points to remember
-
-- In The method `EasyPreference.saveViewState(View view);` **the view must be either RadioGroup or CompoundButton**, otherwise, exception is thrown.
-- The method `EasyPreference.saveActivityState(this);` or `EasyPreference.saveFragmentState(view);` should be called at the last because any modification made after these methods would not be saved.
-- The method `EasyPreference.restoreFragmentState(view);` or `EasyPreference.restoreActivityState(this);` should be called at first, in onCreate() / onCreateView() method. Because after that, if user made any changes in view state (before saving them), then all changes will revert back.
+- `NxPreference.restoreActivityState(this)` or `NxPreference.autoSaveState(this)` must be called in **onCreate()** or activity.
+- `NxPreference.saveActivityState(this)` can be called anywhere in the last. Best in `onStop()`. Any modification made after calling this will not be saved. 
+- In case of listview, `NxPreference.restoreActivityState(this)` or `NxPreference.autoSaveState(this)` must be called after setting adapter in listview. Best in last of onCreate method.
 
 
 
