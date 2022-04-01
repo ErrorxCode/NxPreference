@@ -21,7 +21,7 @@ In your project level build.gradle
 In your module level build.gradle (app)
 ```groovy
 dependencies {
-	        implementation 'com.github.ErrorxCode:EasyPreference:2.0'
+	        implementation 'com.github.ErrorxCode:NxPreference:1.5'
 	}
 ```
 
